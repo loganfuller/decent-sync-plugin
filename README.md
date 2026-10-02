@@ -1,7 +1,7 @@
 # decent-sync-plugin
 
 A Decaid plugin (`decent-sync.reaplugin`) that streams a Decent espresso
-machine's data to a [decent-sync-server](../decent-sync-server). Decaid, DYE2
+machine's data to a [decent-sync-server](https://github.com/loganfuller/decent-sync-server). Decaid, DYE2
 and skins are not modified.
 
 `manifest.json` and `plugin.js` sit at the repo root on purpose. Decaid looks
@@ -55,7 +55,7 @@ After that, it sends:
 - collection changes, found by polling (ETag or content hash)
 
 The machine's identity is `de1-<BLE MAC>` of Decaid's preferred machine.
-The wire format is in `docs/PROTOCOL.md` in decent-sync-server.
+The wire format is in decent-sync-server's [docs/PROTOCOL.md](https://github.com/loganfuller/decent-sync-server/blob/main/docs/PROTOCOL.md).
 
 ## Constraints in Decaid 0.8.6 that shaped the design
 
