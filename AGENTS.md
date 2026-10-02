@@ -4,6 +4,15 @@ For unfamiliar or multi-file tasks, read `docs/AI_REPO_MAP.md` first. For known 
 
 decent-sync-plugin is the machine half of Decent Sync: a Decaid plugin (`decent-sync.reaplugin`) that runs on each Decent espresso machine's tablet and streams shots, beans, batches, grinders, profiles, settings, and machine activity to `decent-sync-server` over one WebSocket. It must work without modifying Decaid, DYE2, or skins.
 
+## Quick Commands
+
+```bash
+node --check plugin.js                                       # syntax check
+node scripts/dev-harness.mjs --simulate                      # run against the DE1 API + local server, no tablet changes
+SERVER_URL=ws://127.0.0.1:8799/sync node scripts/dev-harness.mjs --seconds 0   # until Ctrl-C
+scripts/install-plugin.sh 192.168.4.33 ws://<server-ip>:8787/sync "Home DE1Pro"   # real install; ask first
+```
+
 ## Always
 
 - Preserve existing work. Keep changes focused; do not rewrite unrelated code or documentation.
