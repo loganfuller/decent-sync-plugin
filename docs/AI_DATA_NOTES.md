@@ -1,6 +1,6 @@
 # AI Data Notes
 
-Read this when changing what the plugin reads from Decaid or sends to the server. For the wire format see `decent-sync-server/docs/PROTOCOL.md`; for Decaid field definitions see `../decaid/assets/api/rest_v1.yml`.
+Read this when changing what the plugin reads from Decaid or sends to the server. For the wire format see `decent-sync-server:docs/PROTOCOL.md`; for Decaid field definitions see `decaid:assets/api/rest_v1.yml` at the version in question. Fields vary by Decaid version: treat all of them as optional.
 
 ## Sources to Messages
 
@@ -14,7 +14,7 @@ Read this when changing what the plugin reads from Decaid or sends to the server
 | `collection` `appSettings` | `GET /settings` minus `chargingState` | content hash |
 | `collection` `machineSettings` | `GET /machine/settings` | content hash; fails while the DE1 is disconnected |
 | `collection` `machineAdvancedSettings` | `GET /machine/settings/advanced` | content hash; fails while the DE1 is disconnected |
-| `workflow` | `workflowUpdated` event | profile, dose and yield targets, bean batch, grinder, setting |
+| `workflow` | `workflowUpdated` event | profile, dose and yield targets, bean batch, grinder, setting. The last one is resent in each reconnect snapshot |
 | `machineState` | `stateUpdate` event | transitions only |
 | `shot` | `shotStored` event, then `GET /shots/:id` | full record with `measurements` |
 | `shotUpdated` | `shotUpdated` event | no measurements |

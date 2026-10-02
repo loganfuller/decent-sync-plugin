@@ -10,7 +10,7 @@ function createPlugin(host) {
   "use strict";
 
   const PLUGIN_ID = "decent-sync.reaplugin";
-  const VERSION = "0.1.0";
+  const VERSION = "0.1.1";
   const PROTOCOL = 1;
   const API = "http://localhost:8080/api/v1";
 
@@ -55,6 +55,7 @@ function createPlugin(host) {
   const sentShots = new Set();
   let backfilling = false;
   let lastMachineState = null;
+  let lastWorkflow = null;
 
   function log(msg) {
     host.log(`[decent-sync] ${msg}`);
@@ -220,6 +221,7 @@ function createPlugin(host) {
         // A fresh full snapshot on every (re)connect: the server may have
         // restarted, and it de-duplicates anything it already holds.
         for (const k in fingerprints) delete fingerprints[k];
+        resendWorkflow();
         pollCollections().then(sendShotIndex);
         break;
       case "ack":
@@ -408,6 +410,18 @@ function createPlugin(host) {
 
   // ----------------------------------------------------------------- events
 
+  // workflowUpdated fires on load and on change only, so the latest workflow
+  // is kept and included in each reconnect snapshot.
+  function onWorkflow(workflow) {
+    lastWorkflow = workflow;
+    enqueue("workflow", workflow);
+  }
+
+  function resendWorkflow() {
+    const pending = outbox.some((m) => m.env.type === "workflow");
+    if (lastWorkflow && !pending) enqueue("workflow", lastWorkflow);
+  }
+
   function onMachineState(payload) {
     const s = payload && payload.state;
     if (!s) return;
@@ -451,7 +465,7 @@ function createPlugin(host) {
             onMachineState(event.payload);
             break;
           case "workflowUpdated":
-            enqueue("workflow", event.payload);
+            onWorkflow(event.payload);
             break;
           case "shotStored":
             sendShot(event.payload.id, "stored");

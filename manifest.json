@@ -3,7 +3,7 @@
   "author": "Logan Fuller",
   "name": "Decent Sync",
   "description": "Streams shots, beans, batches, grinders, profiles, settings and machine activity to a central Decent Sync server.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "apiVersion": 1,
   "permissions": [
     "log",

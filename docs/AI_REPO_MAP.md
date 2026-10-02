@@ -11,15 +11,15 @@ Use this for orientation. Read the smallest matching topic note, inspect the nam
 | Task | Read first | Then |
 |------|-----------|------|
 | Any change to `plugin.js` | `docs/AI_RUNTIME_NOTES.md` | the section banner in `plugin.js` that matches |
-| Sending a new kind of data | `docs/AI_DATA_NOTES.md` | `decent-sync-server/docs/PROTOCOL.md`, server `Session.on_<type>` |
+| Sending a new kind of data | `docs/AI_DATA_NOTES.md` | `decent-sync-server:docs/PROTOCOL.md`, server `Session.on_<type>` |
 | Connection, reconnect, backoff, heartbeat | `docs/AI_RUNTIME_NOTES.md` | `connect`, `dropConnection`, `onTransportEvent`, `startHeartbeat` |
-| Outbox, acks, resend, ordering | `decent-sync-server/docs/AI_PROTOCOL_NOTES.md` | `enqueue`, `pump`, `ackMessage` |
+| Outbox, acks, resend, ordering | `decent-sync-server:docs/AI_PROTOCOL_NOTES.md` | `enqueue`, `pump`, `ackMessage` |
 | Polling collections, change detection | `docs/AI_DATA_NOTES.md` | `COLLECTIONS`, `pollCollections`, `enqueueCollection` |
 | Shots and backfill | `docs/AI_DATA_NOTES.md` | `sendShot`, `runBackfill`, `sendShotIndex` |
 | Machine identity | `docs/AI_DATA_NOTES.md` | `resolveIdentity` |
 | Settings, permissions, version | `docs/AI_BUILD_NOTES.md` | `manifest.json` |
 | Installing, testing, releasing | `docs/AI_BUILD_NOTES.md` | `scripts/install-plugin.sh`, `scripts/dev-harness.mjs` |
-| What the host actually does | `docs/AI_RUNTIME_NOTES.md` | `../decaid/lib/src/plugins/plugin_manager.dart`, `plugin_transport_service.dart` |
+| What the host actually does | `docs/AI_RUNTIME_NOTES.md` | `decaid:lib/src/plugins/plugin_manager.dart`, `plugin_transport_service.dart`, `plugin_manifest.dart` |
 
 ## Coupling
 
@@ -30,7 +30,7 @@ Use this for orientation. Read the smallest matching topic note, inspect the nam
 | `manifest.json` permissions | every installed machine | New permissions hold automatic updates until approved |
 | `manifest.json` `version` | `VERSION` in `plugin.js`, release tag | Decaid rejects downgrades; release tag must equal manifest version |
 | `COLLECTIONS` | server `collectionFormatters`, `docs/AI_DATA_NOTES.md` | The server prints and stores by collection name |
-| Event handling in `onEvent` | `manifest.json` `events.*` permissions | Decaid only delivers events whose permission is declared |
+| Event handling in `onEvent` | `manifest.json` `events.*` permissions, minimum version in `docs/AI_RUNTIME_NOTES.md` | Decaid only delivers events whose permission is declared, and rejects permissions it does not know |
 
 ## Production Entry Points
 
@@ -45,9 +45,9 @@ Use this for orientation. Read the smallest matching topic note, inspect the nam
 ## Source-Of-Truth Order
 
 1. Current `plugin.js` and `manifest.json`.
-2. `decent-sync-server/docs/PROTOCOL.md` for the wire contract.
-3. Decaid's Dart source, for anything the host does: `../decaid/lib/src/plugins/`. Line numbers in these notes are against Decaid commit `a45961b3`; the tablet runs 0.8.6+2801 (`d4721e53`).
-4. Decaid's `doc/Plugins.md` and OpenAPI spec `assets/api/rest_v1.yml`.
+2. `decent-sync-server:docs/PROTOCOL.md` for the wire contract.
+3. Decaid's Dart source at the version in question, for anything the host does: `decaid:lib/src/plugins/`. See External Sources in `AGENTS.md` for which version to read.
+4. `decaid:doc/Plugins.md` and the OpenAPI spec `decaid:assets/api/rest_v1.yml`.
 5. README and AI notes.
 
 When sources disagree, describe the discrepancy and follow the higher item, unless the task is to reconcile documentation.

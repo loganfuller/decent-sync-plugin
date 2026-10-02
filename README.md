@@ -9,6 +9,14 @@ for the plugin at most one folder deep, and a GitHub archive already adds one
 wrapper folder. Keeping them at the root lets the repo be installed directly
 with Decaid's `install/github-branch` and `install/github-release` endpoints.
 
+## Requirements
+
+Decaid v0.8.6 or later. That is the first release whose plugin host knows every
+permission the plugin declares (`network.websocket` arrived in v0.8.5,
+`events.workflow` in v0.8.6). Older versions reject the manifest. The plugin
+does not depend on any other version-specific behavior: endpoints or fields a
+version lacks are skipped.
+
 ## Develop
 
 ```bash
@@ -57,7 +65,7 @@ After that, it sends:
 The machine's identity is `de1-<BLE MAC>` of Decaid's preferred machine.
 The wire format is in decent-sync-server's [docs/PROTOCOL.md](https://github.com/loganfuller/decent-sync-server/blob/main/docs/PROTOCOL.md).
 
-## Constraints in Decaid 0.8.6 that shaped the design
+## Decaid constraints that shaped the design
 
 - Plugin `fetch` is used only for Decaid's own API at `http://localhost:8080`.
   Decaid's docs say it cannot reach other private addresses. The server
@@ -65,8 +73,9 @@ The wire format is in decent-sync-server's [docs/PROTOCOL.md](https://github.com
   and internet hosts and supports `wss://`.
 - Each transport allows at most 1 MiB of pending outbound data. The plugin sends
   frames one at a time, and backfill waits until the outbox drains.
-- Decaid has no change events for beans, grinders, profiles or settings, so the
-  plugin polls for them.
+- The plugin uses Decaid events wherever they exist (machine state, shots,
+  workflow). Decaid has no change events for beans, grinders, profiles or
+  settings, so the plugin polls for those.
 - `onLoad` must return quickly, or Decaid's load watchdog disables the plugin.
   The plugin connects asynchronously after load.
 

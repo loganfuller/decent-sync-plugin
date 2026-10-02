@@ -8,7 +8,8 @@
 // Env: DECENT (192.168.4.33), SERVER_URL (ws://127.0.0.1:8787/sync),
 //      MACHINE_NAME (Harness), AUTH_TOKEN, POLL_SECONDS (5)
 //
-// --simulate dispatches a stateUpdate pair and a shotStored for the latest shot.
+// --simulate dispatches workflowUpdated, a stateUpdate pair, and a shotStored for
+// the latest shot.
 // The stand-in covers only what plugin.js uses: host.log, host.transport, and
 // plugin-scoped fetch. It does not reproduce Decaid's resource limits.
 
@@ -72,6 +73,8 @@ plugin.onLoad({
 
 if (SIMULATE) {
   const latest = await pluginFetch("http://localhost:8080/api/v1/shots/latest").then((r) => r.json()).catch(() => null);
+  const workflow = await pluginFetch("http://localhost:8080/api/v1/workflow").then((r) => r.json()).catch(() => null);
+  if (workflow) plugin.onEvent({ name: "workflowUpdated", payload: workflow });
   setTimeout(() => plugin.onEvent({ name: "stateUpdate", payload: { state: { state: "idle", substate: "ready" }, groupTemperature: 92 } }), 1500);
   setTimeout(() => plugin.onEvent({ name: "stateUpdate", payload: { state: { state: "espresso", substate: "pouring" }, groupTemperature: 93 } }), 1700);
   if (latest?.id) setTimeout(() => plugin.onEvent({ name: "shotStored", payload: { id: latest.id } }), 2500);

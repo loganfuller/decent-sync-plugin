@@ -24,11 +24,13 @@ scripts/install-plugin.sh 192.168.4.33 ws://<server-ip>:8787/sync "Home DE1Pro" 
 
 ## Hard Rules
 
-- The wire contract is `docs/PROTOCOL.md` in `decent-sync-server`. Any message change needs the matching server change and a `docs/PROTOCOL.md` update in that repo. Call out the cross-repo change explicitly.
+- The wire contract is `decent-sync-server:docs/PROTOCOL.md`. Any message change needs the matching server change and a `docs/PROTOCOL.md` update in that repo. Call out the cross-repo change explicitly.
 - `manifest.json` and `plugin.js` stay at the repo root. Decaid resolves a plugin at most one directory deep and GitHub archives add one, so moving them breaks branch and release installs.
 - `manifest.json` `id` stays `decent-sync.reaplugin` and must equal the `id` returned by `createPlugin`. Changing it installs a second plugin instead of upgrading.
 - Bump `version` in `manifest.json` and `VERSION` in `plugin.js` together. Decaid rejects a lower version (409) and GitHub release tags must equal the manifest version.
 - Adding a manifest permission blocks automatic updates on every machine until a person approves it. Avoid new permissions unless the feature needs them, and say so when you add one.
+- Don't couple the plugin to one Decaid version. Machines run different releases. Manifest permissions set the minimum supported version, because Decaid rejects a manifest with any permission it does not know; everything else (endpoints, fields, headers) must degrade when absent. See Compatibility in `docs/AI_RUNTIME_NOTES.md`.
+- Prefer Decaid events over polling. Poll only data that has no event, and never trade an event for polling just to support an older release.
 - `onLoad` must return immediately. Decaid calls it synchronously and its load watchdog disables plugins that block. Start network work from a timer.
 - Every data message goes through `enqueue` so it is acked and resent. Only `hello` and `heartbeat` may use `sendNow`.
 - Send frames one at a time through `pump`. Decaid's transport rejects a send that would push pending outbound data past 1 MiB.
@@ -54,14 +56,25 @@ scripts/install-plugin.sh 192.168.4.33 ws://<server-ip>:8787/sync "Home DE1Pro" 
 | backfill | shots the server asked for with `requestShots` |
 | machine | one DE1 plus its tablet, identified by `machineId` (`de1-<BLE MAC>`) |
 
+## External Sources
+
+Paths written `<name>:<path>` are relative to that repo's root. Notes cite files and symbols, never line numbers, because line numbers change between versions.
+
+| Name | Repo | Which version to read |
+|------|------|-----------------------|
+| `decaid` | [decentespresso/decaid](https://github.com/decentespresso/decaid) | the one the question is about: a machine's `hello.decaidVersion`, the minimum supported release (see Compatibility in `docs/AI_RUNTIME_NOTES.md`) for compatibility questions, or `main` for upcoming changes |
+| `decent-sync-server` | [loganfuller/decent-sync-server](https://github.com/loganfuller/decent-sync-server) | `main`; the two repos change together |
+
+To read one, use `$DECAID_DIR` or `$DECENT_SYNC_SERVER_DIR` if set, or a checkout you already have; never assume where a checkout lives. `git show <tag>:<path>` reads a version without checking it out. Without a checkout: `gh api 'repos/decentespresso/decaid/contents/<path>?ref=<tag>' -H 'Accept: application/vnd.github.raw'`.
+
 ## Deep References
 
 - Fast file routing: `docs/AI_REPO_MAP.md`.
 - Decaid plugin runtime, permissions, limits, footguns: `docs/AI_RUNTIME_NOTES.md`.
 - Which Decaid endpoints and events feed which messages: `docs/AI_DATA_NOTES.md`.
 - Install, versioning, dev harness, releases: `docs/AI_BUILD_NOTES.md`.
-- Wire contract and delivery semantics: `decent-sync-server/docs/PROTOCOL.md`, `decent-sync-server/docs/AI_PROTOCOL_NOTES.md`.
-- Decaid's plugin guide and source: `../decaid/doc/Plugins.md`, `../decaid/lib/src/plugins/`.
+- Wire contract and delivery semantics: `decent-sync-server:docs/PROTOCOL.md`, `decent-sync-server:docs/AI_PROTOCOL_NOTES.md`.
+- Decaid's plugin guide and host source: `decaid:doc/Plugins.md`, `decaid:lib/src/plugins/`.
 
 ## Don't
 
