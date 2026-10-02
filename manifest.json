@@ -1,0 +1,43 @@
+{
+  "id": "decent-sync.reaplugin",
+  "author": "Logan Fuller",
+  "name": "Decent Sync",
+  "description": "Streams shots, beans, batches, grinders, profiles, settings and machine activity to a central Decent Sync server.",
+  "version": "0.1.0",
+  "apiVersion": 1,
+  "permissions": [
+    "log",
+    "api",
+    "events.machine",
+    "events.shots",
+    "events.workflow",
+    "network.websocket"
+  ],
+  "settings": {
+    "ServerUrl": {
+      "type": "string",
+      "label": "Sync server URL",
+      "default": "",
+      "description": "WebSocket URL of the Decent Sync server (ws:// on the LAN, wss:// over the internet)."
+    },
+    "MachineName": {
+      "type": "string",
+      "label": "Machine name",
+      "default": "",
+      "description": "Friendly name for this machine on the sync server, e.g. \"Home DE1Pro\"."
+    },
+    "AuthToken": {
+      "type": "string",
+      "label": "Auth token",
+      "secure": true,
+      "description": "Shared secret the server expects. Leave empty if the server runs without a token."
+    },
+    "PollSeconds": {
+      "type": "number",
+      "label": "Change poll interval (seconds)",
+      "default": 30,
+      "description": "How often to check beans, batches, grinders, profiles and settings for changes."
+    }
+  },
+  "api": []
+}
