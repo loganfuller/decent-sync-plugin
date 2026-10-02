@@ -9,6 +9,14 @@ for the plugin at most one folder deep, and a GitHub archive already adds one
 wrapper folder. Keeping them at the root lets the repo be installed directly
 with Decaid's `install/github-branch` and `install/github-release` endpoints.
 
+## Develop
+
+```bash
+node scripts/dev-harness.mjs --simulate   # runs plugin.js in Node against the DE1's API; no tablet changes
+```
+
+See `AGENTS.md` and `docs/` for how the plugin works and Decaid's runtime constraints.
+
 ## Install
 
 From this checkout, over the machine's REST API:
@@ -47,14 +55,14 @@ After that, it sends:
 - collection changes, found by polling (ETag or content hash)
 
 The machine's identity is `de1-<BLE MAC>` of Decaid's preferred machine.
-The wire format is in `PROTOCOL.md` in decent-sync-server.
+The wire format is in `docs/PROTOCOL.md` in decent-sync-server.
 
 ## Constraints in Decaid 0.8.6 that shaped the design
 
-- In the plugin runtime, `fetch` only reaches Decaid's own API at
-  `http://localhost:8080`. The server connection uses `host.transport`
-  (`network.websocket`), which can reach LAN and internet hosts and supports
-  `wss://`.
+- Plugin `fetch` is used only for Decaid's own API at `http://localhost:8080`.
+  Decaid's docs say it cannot reach other private addresses. The server
+  connection uses `host.transport` (`network.websocket`), which can reach LAN
+  and internet hosts and supports `wss://`.
 - Each transport allows at most 1 MiB of pending outbound data. The plugin sends
   frames one at a time, and backfill waits until the outbox drains.
 - Decaid has no change events for beans, grinders, profiles or settings, so the
