@@ -15,7 +15,7 @@ The harness evaluates `plugin.js` with a stand-in `host` and a `fetch` that rewr
 
 It does not reproduce Decaid's transport limits, permission checks, event cadence, or QuickJS differences. Confirm anything touching those on a tablet.
 
-Run a scratch server alongside: `PORT=8799 DATA_DIR=/tmp/ds node server.mjs` in `decent-sync-server`. The harness identifies as the same `machineId` as the real tablet; never point it at a server holding real data while the tablet is also connected, or the two sessions replace each other (close code 4409).
+Run a scratch server alongside: `PORT=8799 DATA_DIR=/tmp/ds node server.mjs` in `decent-sync`. The harness identifies as the same `machineId` as the real tablet; never point it at a server holding real data while the tablet is also connected, or the two sessions replace each other (close code 4409).
 
 ## Installing on a Tablet
 

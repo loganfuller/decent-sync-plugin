@@ -1,7 +1,9 @@
 # decent-sync-plugin
 
+> **Deprecated.** Decent Sync now lives in [loganfuller/decent-sync](https://github.com/loganfuller/decent-sync), and the plugin is moving into that repo (`plugin/`, built to `decent-sync.reaplugin/`). This repo holds the prototype plugin, which still works with the prototype server there. It gets no further development.
+
 A Decaid plugin (`decent-sync.reaplugin`) that streams a Decent espresso
-machine's data to a [decent-sync-server](https://github.com/loganfuller/decent-sync-server). Decaid, DYE2
+machine's data to a [decent-sync](https://github.com/loganfuller/decent-sync) server. Decaid, DYE2
 and skins are not modified.
 
 `manifest.json` and `plugin.js` sit at the repo root on purpose. Decaid looks
@@ -63,7 +65,7 @@ After that, it sends:
 - collection changes, found by polling (ETag or content hash)
 
 The machine's identity is `de1-<BLE MAC>` of Decaid's preferred machine.
-The wire format is in decent-sync-server's [docs/PROTOCOL.md](https://github.com/loganfuller/decent-sync-server/blob/main/docs/PROTOCOL.md).
+The wire format is in decent-sync's [docs/PROTOCOL.md](https://github.com/loganfuller/decent-sync/blob/main/docs/PROTOCOL.md).
 
 ## Decaid constraints that shaped the design
 

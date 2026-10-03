@@ -11,9 +11,9 @@ Use this for orientation. Read the smallest matching topic note, inspect the nam
 | Task | Read first | Then |
 |------|-----------|------|
 | Any change to `plugin.js` | `docs/AI_RUNTIME_NOTES.md` | the section banner in `plugin.js` that matches |
-| Sending a new kind of data | `docs/AI_DATA_NOTES.md` | `decent-sync-server:docs/PROTOCOL.md`, server `Session.on_<type>` |
+| Sending a new kind of data | `docs/AI_DATA_NOTES.md` | `decent-sync:docs/PROTOCOL.md`, server `Session.on_<type>` |
 | Connection, reconnect, backoff, heartbeat | `docs/AI_RUNTIME_NOTES.md` | `connect`, `dropConnection`, `onTransportEvent`, `startHeartbeat` |
-| Outbox, acks, resend, ordering | `decent-sync-server:docs/AI_PROTOCOL_NOTES.md` | `enqueue`, `pump`, `ackMessage` |
+| Outbox, acks, resend, ordering | `decent-sync:docs/AI_PROTOCOL_NOTES.md` | `enqueue`, `pump`, `ackMessage` |
 | Polling collections, change detection | `docs/AI_DATA_NOTES.md` | `COLLECTIONS`, `pollCollections`, `enqueueCollection` |
 | Shots and backfill | `docs/AI_DATA_NOTES.md` | `sendShot`, `runBackfill`, `sendShotIndex` |
 | Machine identity | `docs/AI_DATA_NOTES.md` | `resolveIdentity` |
@@ -45,7 +45,7 @@ Use this for orientation. Read the smallest matching topic note, inspect the nam
 ## Source-Of-Truth Order
 
 1. Current `plugin.js` and `manifest.json`.
-2. `decent-sync-server:docs/PROTOCOL.md` for the wire contract.
+2. `decent-sync:docs/PROTOCOL.md` for the wire contract.
 3. Decaid's Dart source at the version in question, for anything the host does: `decaid:lib/src/plugins/`. See External Sources in `AGENTS.md` for which version to read.
 4. `decaid:doc/Plugins.md` and the OpenAPI spec `decaid:assets/api/rest_v1.yml`.
 5. README and AI notes.

@@ -1,6 +1,6 @@
 # AI Data Notes
 
-Read this when changing what the plugin reads from Decaid or sends to the server. For the wire format see `decent-sync-server:docs/PROTOCOL.md`; for Decaid field definitions see `decaid:assets/api/rest_v1.yml` at the version in question. Fields vary by Decaid version: treat all of them as optional.
+Read this when changing what the plugin reads from Decaid or sends to the server. For the wire format see `decent-sync:docs/PROTOCOL.md`; for Decaid field definitions see `decaid:assets/api/rest_v1.yml` at the version in question. Fields vary by Decaid version: treat all of them as optional.
 
 ## Sources to Messages
 

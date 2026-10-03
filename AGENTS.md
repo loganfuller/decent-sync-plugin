@@ -1,8 +1,10 @@
 # Agent Instructions
 
+> **Deprecated.** Decent Sync now lives in [loganfuller/decent-sync](https://github.com/loganfuller/decent-sync), and the plugin is moving into that repo (`plugin/`, built to `decent-sync.reaplugin/`). This repo holds the prototype plugin, which still works with the prototype server there. It gets no further development.
+
 For unfamiliar or multi-file tasks, read `docs/AI_REPO_MAP.md` first. For known files or exact symbols, open them directly. Read the topic notes only when the task needs them; do not preload them all.
 
-decent-sync-plugin is the machine half of Decent Sync: a Decaid plugin (`decent-sync.reaplugin`) that runs on each Decent espresso machine's tablet and streams shots, beans, batches, grinders, profiles, settings, and machine activity to `decent-sync-server` over one WebSocket. It must work without modifying Decaid, DYE2, or skins.
+decent-sync-plugin is the machine half of Decent Sync: a Decaid plugin (`decent-sync.reaplugin`) that runs on each Decent espresso machine's tablet and streams shots, beans, batches, grinders, profiles, settings, and machine activity to `decent-sync` over one WebSocket. It must work without modifying Decaid, DYE2, or skins.
 
 ## Quick Commands
 
@@ -24,7 +26,7 @@ scripts/install-plugin.sh 192.168.4.33 ws://<server-ip>:8787/sync "Home DE1Pro" 
 
 ## Hard Rules
 
-- The wire contract is `decent-sync-server:docs/PROTOCOL.md`. Any message change needs the matching server change and a `docs/PROTOCOL.md` update in that repo. Call out the cross-repo change explicitly.
+- The wire contract is `decent-sync:docs/PROTOCOL.md`. Any message change needs the matching server change and a `docs/PROTOCOL.md` update in that repo. Call out the cross-repo change explicitly.
 - `manifest.json` and `plugin.js` stay at the repo root. Decaid resolves a plugin at most one directory deep and GitHub archives add one, so moving them breaks branch and release installs.
 - `manifest.json` `id` stays `decent-sync.reaplugin` and must equal the `id` returned by `createPlugin`. Changing it installs a second plugin instead of upgrading.
 - Bump `version` in `manifest.json` and `VERSION` in `plugin.js` together. Decaid rejects a lower version (409) and GitHub release tags must equal the manifest version.
@@ -63,9 +65,9 @@ Paths written `<name>:<path>` are relative to that repo's root. Notes cite files
 | Name | Repo | Which version to read |
 |------|------|-----------------------|
 | `decaid` | [decentespresso/decaid](https://github.com/decentespresso/decaid) | the one the question is about: a machine's `hello.decaidVersion`, the minimum supported release (see Compatibility in `docs/AI_RUNTIME_NOTES.md`) for compatibility questions, or `main` for upcoming changes |
-| `decent-sync-server` | [loganfuller/decent-sync-server](https://github.com/loganfuller/decent-sync-server) | `main`; the two repos change together |
+| `decent-sync` | [loganfuller/decent-sync](https://github.com/loganfuller/decent-sync) | `main`; the two repos change together |
 
-To read one, use `$DECAID_DIR` or `$DECENT_SYNC_SERVER_DIR` if set, or a checkout you already have; never assume where a checkout lives. `git show <tag>:<path>` reads a version without checking it out. Without a checkout: `gh api 'repos/decentespresso/decaid/contents/<path>?ref=<tag>' -H 'Accept: application/vnd.github.raw'`.
+To read one, use `$DECAID_DIR` or `$DECENT_SYNC_DIR` if set, or a checkout you already have; never assume where a checkout lives. `git show <tag>:<path>` reads a version without checking it out. Without a checkout: `gh api 'repos/decentespresso/decaid/contents/<path>?ref=<tag>' -H 'Accept: application/vnd.github.raw'`.
 
 ## Deep References
 
@@ -73,7 +75,7 @@ To read one, use `$DECAID_DIR` or `$DECENT_SYNC_SERVER_DIR` if set, or a checkou
 - Decaid plugin runtime, permissions, limits, footguns: `docs/AI_RUNTIME_NOTES.md`.
 - Which Decaid endpoints and events feed which messages: `docs/AI_DATA_NOTES.md`.
 - Install, versioning, dev harness, releases: `docs/AI_BUILD_NOTES.md`.
-- Wire contract and delivery semantics: `decent-sync-server:docs/PROTOCOL.md`, `decent-sync-server:docs/AI_PROTOCOL_NOTES.md`.
+- Wire contract and delivery semantics: `decent-sync:docs/PROTOCOL.md`, `decent-sync:docs/AI_PROTOCOL_NOTES.md`.
 - Decaid's plugin guide and host source: `decaid:doc/Plugins.md`, `decaid:lib/src/plugins/`.
 
 ## Don't
